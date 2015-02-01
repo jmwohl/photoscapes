@@ -1,0 +1,72 @@
+html, body {
+	width: 100%;
+	height: 100%;
+	padding: 0;
+	margin: 0;
+}
+
+body {
+	background-image: url(../img/line.png);
+	background-repeat: repeat-y;
+	background-position: center;
+}
+
+h1 {
+	color: #3f3e3c;
+	font-family: Georgia;
+	font-weight: normal;
+	font-size: 3em;
+}
+
+h3 {
+	color: #cbcac7;
+	font-family: Corbel;
+	font-weight: normal;
+	font-size: 1.5em;
+}
+
+#Container {
+	width: 60%;
+	width: 100%;
+	height: 100%;
+	position: relative;
+	text-align: center;
+}
+
+
+#Header {
+	height: 100%;
+	background-color: #f3f2f0;
+	position: relative;
+}
+
+#Preloader {
+	display: none;
+	position: absolute;
+}
+
+#HeaderContent {
+	display: none;
+	position: absolute;
+}
+
+#PhotosWrap {
+	min-height: 100%;
+	margin: 0 auto;
+	background: none;
+}
+
+ul#Photos, ul#Photos li {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+ul#Photos li img {
+	
+}
+
+#Footer {
+
+}
+

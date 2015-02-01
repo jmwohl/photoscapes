@@ -1,0 +1,42 @@
+{
+    "title": "Two Weeks in Goa",
+    "date": "January 2015",
+    "credits": "Ishac Bertran & Jonathan Wohl",
+    "slides": [{
+        "type": "photo",
+        "img_url": "assets/photos/DSCF0628.jpg",
+        "aud_url": "Streets.mp3"
+    }, {
+        "type": "photo",
+        "img_url": "assets/photos/DSCF0632.jpg",
+        "aud_url": "Streets.mp3"
+    }, {
+        "type": "photo",
+        "img_url": "assets/photos/DSCF0671.jpg",
+        "aud_url": "Streets.mp3"
+    }, {
+        "type": "photo",
+        "img_url": "assets/photos/DSCF0689.jpg",
+        "aud_url": "Streets.mp3"
+    }, {
+        "type": "photo",
+        "img_url": "assets/photos/DSCF0819.jpg",
+        "aud_url": "Streets.mp3"
+    }, {
+        "type": "photo",
+        "img_url": "assets/photos/DSCF0833.jpg",
+        "aud_url": "Streets.mp3"
+    }, {
+        "type": "photo",
+        "img_url": "assets/photos/DSCF0966.jpg",
+        "aud_url": "Streets.mp3"
+    }, {
+        "type": "photo",
+        "img_url": "assets/photos/DSCF1020.jpg",
+        "aud_url": "Streets.mp3"
+    }, {
+        "type": "photo",
+        "img_url": "assets/photos/DSCF1293.jpg",
+        "aud_url": "Streets.mp3"
+    }]
+}

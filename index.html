@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Photos</title>
+	<link rel="stylesheet" type="text/css" href="css/styles.css">
+</head>
+<body>
+
+	<div id="Container">
+		<div id="Header">
+			<div id="Preloader"><input type="text" class="dial" /></div>
+			<div id="HeaderContent">
+				<h1 class='title'>&nbsp;</h1>
+				<h3 class='date'>&nbsp;</h3>
+			</div>
+		</div>
+		<div id="PhotosWrap">
+			<ul id="Photos">
+				
+			</ul>
+		</div>
+		<div id="Footer">
+			<div id="Credits">
+				
+			</div>
+		</div>
+	</div>
+
+
+<script type="text/javascript" src="js/jquery-2.1.3.min.js"></script>
+<script type="text/javascript" src="js/jquery.knob.min.js"></script>
+<script type="text/javascript" src="js/Preloader.js"></script>
+<script type="text/javascript" src="js/Controller.js"></script>
+<script type="text/javascript">
+	Controller.init("http://localhost:3030/data/data.json");
+</script>
+</body>
+</html>
