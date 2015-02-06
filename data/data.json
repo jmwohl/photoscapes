@@ -1,8 +1,9 @@
 {
-    "title": "Two Weeks in Goa",
-    "date": "January 2015",
-    "credits": "Ishac Bertran & Jonathan Wohl",
     "slides": [{
+        "type": "header",
+        "title": "Two Weeks in Goa",
+    	"date": "January 2015"
+    }, {
         "type": "photo",
         "img_url": "assets/photos/DSCF0628.jpg",
         "aud_url": "Streets.mp3"
@@ -38,5 +39,8 @@
         "type": "photo",
         "img_url": "assets/photos/DSCF1293.jpg",
         "aud_url": "Streets.mp3"
+    }, {
+        "type": "footer",
+        "credits": "Ishac Bertran & Jonathan Wohl"
     }]
 }

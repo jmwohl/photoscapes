@@ -7,12 +7,13 @@ window.Preloader = (function() {
 		_radius = 20,
 		_knobOpts = {
 		    width: _radius*2,
-		    max: _totalSlides,
+		    max: 0,
 		    readOnly: true,
 		    inputColor: '#cbcac7',
 		    fgColor: '#3f3e3c',
 		    thickness: 0.2
 		},
+		_template = _.template($('#Preloader').html()),
 		_doneDfd;
 
 
@@ -33,6 +34,20 @@ window.Preloader = (function() {
 
 	function _loadSlide(slide) {
 		console.log('_loadSlide', slide);
+
+		if (slide.type != 'photo') {
+			$(".dial").val(_numLoaded).trigger('change');
+			_numLoaded += 1;
+			if (_numLoaded < _totalSlides) {
+				_curLoading += 1;
+				_loadSlide(_slides[_curLoading]);
+			} else {
+				_hidePreloader();
+				_doneDfd.resolve();
+			}
+			return;
+		}
+
 		// load the img
 		var imgDfd = _loadImage(slide.img_url);
 		

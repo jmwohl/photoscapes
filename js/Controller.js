@@ -12,10 +12,11 @@ window.Controller = (function($, Preloader) {
         _transitionDuration = 500,
         _curSlide = 0,
         $win = $(window),
-        $header = $("#Header"),
+        $headerTemplate = $("#Header"),
+        _headerTplCompiled = _.template($headerTemplate.html()),
         $headerContent = $("#HeaderContent"),
         $preloader = $("#Preloader"),
-        $photos = $("ul#Photos"),
+        $photos = $("ul#Slides"),
         _winH = $win.height(),
         _winW = $win.width(),
         _scrollEvents = [];
@@ -37,18 +38,19 @@ window.Controller = (function($, Preloader) {
      */
     function _setupScreen() {
         console.log(_winH, _winW);
-        $header.css("height", _winH + "px");
+        // $header.css("height", _winH + "px");
         $preloader.css("top", _winH / 2 - Preloader.radius);
         $preloader.css("left", _winW / 2 - Preloader.radius);
 
         // this minus offset is a guess... should be calculated.
-        $headerContent.css("top", _winH / 2 - 100);
+        // $headerContent.css("top", _winH / 2 - 100);
 
         // var padding = (_winH - $("#HeaderContent").height())/2;
         // $header.css("padding", padding + "px 0px");
     }
 
     function _setupEventHandlers() {
+    	console.log('_setupEventHandlers');
         // $('body').on({
         //     'mousewheel': function(e) {
         //         console.log(e);
@@ -94,15 +96,11 @@ window.Controller = (function($, Preloader) {
     function _nextSlide() {
         console.log("_nextSlide");
         var $el;
-        if (_curSlide < _slides.length + 1) {
+        if (_curSlide < _slides.length - 1) {
         	_curSlide += 1;
+	        $el = $photos.find('li').eq(_curSlide);
+	        _scrollToElement($el);
         }
-        if (_curSlide == _slides.length + 1) {
-        	$el = $footer;
-        } else {
-        	$el = $photos.find('li').eq(_curSlide - 1);
-        }
-        _scrollToElement($el);
         
     }
 
@@ -111,14 +109,9 @@ window.Controller = (function($, Preloader) {
         var $el;
         if (_curSlide > 0) {
         	_curSlide -= 1;
+		    $el = $photos.find('li').eq(_curSlide);
+	        _scrollToElement($el);
         }
-        if (_curSlide == 0) {
-        	$el = $header;
-        } else {
-	        $el = $photos.find('li').eq(_curSlide - 1);
-        	
-        }
-        _scrollToElement($el);
     }
 
     function _scrollToElement($el) {
@@ -129,23 +122,36 @@ window.Controller = (function($, Preloader) {
 
 
     function _drawContent() {
-        _showHeaderContent();
         console.log('_slides', _slides);
         for (var i = 0; i < _slides.length; i++) {
+        	var slide = _slides[i];
 
             var $li = $('<li>').css({
                 'height': _winH,
                 'position': 'relative'
             });
 
-            var imgH = _winH * .75;
-            _slides[i].$img.height(imgH);
-            _slides[i].$img.css({
-                'position': 'relative',
-                'top': '50%',
-                'margin-top': -imgH / 2
-            });
-            $li.append(_slides[i].$img);
+        	switch (slide.type) {
+        		case 'header':
+        			var $header = $(_headerTplCompiled(slide));
+        			// var headerHeight = $header.css('height');
+        			// $header.css('margin-top', - (headerHeight / 2));
+        			$li.append($header).addClass('header');
+        			break;
+        		case 'photo':
+		            var imgH = _winH * .75;
+		            _slides[i].$img.height(imgH);
+		            _slides[i].$img.css({
+		                'position': 'relative',
+		                'top': '50%',
+		                'margin-top': -imgH / 2
+		            });
+		            $li.append(_slides[i].$img);
+        			break;
+        		case 'footer':
+        			break;
+        	}
+
             $photos.append($li);
         }
     }
@@ -158,9 +164,9 @@ window.Controller = (function($, Preloader) {
     }
 
     // display the header content, set HTML background color to white
-    function _showHeaderContent() {
-        $('.title').text(_data.title);
-        $('.date').text(_data.date);
+    function _showHeaderContent(slide) {
+        $('.title').text(slide.title);
+        $('.date').text(slide.date);
         $('body').css('background-color', '#fff');
         $headerContent.css("left", _winW / 2 - $headerContent.width() / 2);
         $headerContent.show();
