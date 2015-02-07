@@ -13,7 +13,7 @@ window.Preloader = (function() {
 		    fgColor: '#3f3e3c',
 		    thickness: 0.2
 		},
-		_template = _.template($('#Preloader').html()),
+		$preloader = $('#Preloader'),
 		_doneDfd;
 
 
@@ -57,7 +57,14 @@ window.Preloader = (function() {
 		// when both are loaded, see about loading the next one...
 		$.when(imgDfd, audDfd).done(function($img, aud) {
 			slide.$img = $img;
-			slide.aud = aud;
+			if (aud) {
+				aud.loop = true;
+				aud.volume = 0;
+				slide.aud = aud;
+				// for overlapping loop
+				slide.audB = aud.cloneNode();
+			}
+
 			_numLoaded += 1;
 			$(".dial").val(_numLoaded).trigger('change');			
 
@@ -86,21 +93,28 @@ window.Preloader = (function() {
 		return dfd.promise();
 	}
 
-	// TODO: preload an Audio file
+	// preload an Audio file
+	// TODO: in this case we're going to wait for all of the audio files to reach "canplaythrough", which probably isn't necessary
+	// ... might be better to just preload the first couple?
 	function _loadAudio(url) {
-		var dfd = $.Deferred(),
-			$img = $('<img>');
 
-			dfd.resolve();
-		// // set up preloading
-		// $img.load(dfd.resolve);
-		// $img.attr('src', url);
-		
+		var dfd = $.Deferred(),
+			audio = new Audio();
+	    if (!url) {
+	    	dfd.resolve();
+	    	return;
+	    }
+	    audio.addEventListener('canplaythrough', function() {
+	    	dfd.resolve(audio);
+	    }, false);
+	    audio.src = url;
+	    
 		return dfd.promise();
 	}
 
 	function _showPreloader() {
-		$(".dial").val(_numLoaded).knob(_knobOpts);
+		$preloader.find('.dial').val(_numLoaded).knob(_knobOpts);
+
 		$("#Preloader").show();
 	}
 

@@ -7,8 +7,7 @@
 </head>
 
 <body>
-
-    <div id="Container">
+	<div id="Container">
         <div id="SlidesWrap">
             <ul id="Slides">
 
@@ -16,12 +15,18 @@
         </div>
     </div>
 
+    <div id="AudioPlayer">
+    	<div class="progress-wrap">
+        	<input type="text" class="player-progress" />
+        	<div class="play-pause-btn"></div>
+		</div>
+    </div>
 
-    <script type="template" id="Preloader">
-        <div class='preloader'>
-            <input type="text" class="dial" />
-        </div>
-    </script>
+	<div id='Preloader'>
+		<div class="preloader-content">
+        	<input type="text" class="dial" />
+		</div>
+    </div>
 
     <script type="template" id="Header">
         <div class='header-content'>
@@ -32,11 +37,12 @@
 
     <script type="text/javascript" src="js/jquery-2.1.3.min.js"></script>
     <script type="text/javascript" src="js/lodash.min.js"></script>
-    <script type="text/javascript" src="js/jquery.knob.min.js"></script>
+    <script type="text/javascript" src="js/jquery.knob.js"></script>
+    <script type="text/javascript" src="js/AudioPlayer.js"></script>
     <script type="text/javascript" src="js/Preloader.js"></script>
     <script type="text/javascript" src="js/Controller.js"></script>
     <script type="text/javascript">
-    Controller.init("http://localhost:3030/data/data.json");
+    	Controller.init("http://localhost:3030/data/data.json");
     </script>
 </body>
 

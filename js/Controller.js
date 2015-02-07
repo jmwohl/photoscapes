@@ -39,8 +39,8 @@ window.Controller = (function($, Preloader) {
     function _setupScreen() {
         console.log(_winH, _winW);
         // $header.css("height", _winH + "px");
-        $preloader.css("top", _winH / 2 - Preloader.radius);
-        $preloader.css("left", _winW / 2 - Preloader.radius);
+        // $preloader.css("top", _winH / 2 - Preloader.radius);
+        // $preloader.css("left", _winW / 2 - Preloader.radius);
 
         // this minus offset is a guess... should be calculated.
         // $headerContent.css("top", _winH / 2 - 100);
@@ -76,6 +76,13 @@ window.Controller = (function($, Preloader) {
             } else if (e.which == 37 || e.which == 38) {
                 _prevSlide();
                 e.preventDefault();
+            } else if (e.which == 32) {
+            	if (AudioPlayer.isPaused()) {
+                	AudioPlayer.play();
+            	} else {
+                	AudioPlayer.pause();
+            	}
+                e.preventDefault();
             }
         });
     }
@@ -100,6 +107,7 @@ window.Controller = (function($, Preloader) {
         	_curSlide += 1;
 	        $el = $photos.find('li').eq(_curSlide);
 	        _scrollToElement($el);
+	        AudioPlayer.start(_curSlide);
         }
         
     }
@@ -111,6 +119,7 @@ window.Controller = (function($, Preloader) {
         	_curSlide -= 1;
 		    $el = $photos.find('li').eq(_curSlide);
 	        _scrollToElement($el);
+	        AudioPlayer.start(_curSlide);
         }
     }
 
@@ -123,6 +132,9 @@ window.Controller = (function($, Preloader) {
 
     function _drawContent() {
         console.log('_slides', _slides);
+
+        AudioPlayer.draw(_slides);
+
         for (var i = 0; i < _slides.length; i++) {
         	var slide = _slides[i];
 
@@ -139,7 +151,7 @@ window.Controller = (function($, Preloader) {
         			$li.append($header).addClass('header');
         			break;
         		case 'photo':
-		            var imgH = _winH * .75;
+		            var imgH = _winH * 0.9;
 		            _slides[i].$img.height(imgH);
 		            _slides[i].$img.css({
 		                'position': 'relative',

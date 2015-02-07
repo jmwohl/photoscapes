@@ -1,0 +1,15 @@
+{
+  "name": "photoscapes",
+  "version": "0.0.0",
+  "description": "photos+sounds",
+  "main": "Controller.js",
+  "dependencies": {
+    "nws": "^0.6.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
