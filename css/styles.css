@@ -135,12 +135,12 @@ ul#Slides li img {
 	cursor: pointer;
 }
 
-.play {
+.play:hover {
 	background-image: url(../img/play.png);
 	left: 1px;
 }
 
-.pause {
+.pause:hover {
 	background-image: url(../img/pause.png);
 }
 
