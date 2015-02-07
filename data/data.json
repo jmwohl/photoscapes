@@ -1,8 +1,10 @@
 {
     "slides": [{
         "type": "header",
-        "title": "Two Weeks in Goa",
-    	"date": "January 2015"
+        "title": "Two weeks in Goa",
+    	"date": "January 2015",
+    	"intro": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, consequat.",
+    	"credits": "Ishac Bertran & Jonathan Wohl"
     }, {
         "type": "photo",
         "img_url": "assets/photos/DSCF0628.jpg",

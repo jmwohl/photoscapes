@@ -6,4 +6,4 @@
 $ npm install
 
 ### Start the server
-$ nws -o
+$ ./node_modules/nws/bin/nws -o
