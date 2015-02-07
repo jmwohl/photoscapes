@@ -49,9 +49,11 @@ window.Controller = (function($, Preloader) {
     function _setupEventHandlers() {
     	console.log('_setupEventHandlers');
 
-        $(document).on('scrollstop', function(e) {
-        	
-        });
+        $(document).scrollsnap({
+	        snaps: '.slide',
+	        proximity: _winW/2,
+	        onSnap: _handleSnapToSlide
+	    });
 
         $(document).on('keydown', function(e) {
             console.log(e.keyCode);
@@ -79,10 +81,6 @@ window.Controller = (function($, Preloader) {
 
     function _playPhoto(index) {
 
-    }
-
-    function _setCurrentSlide() {
-    	// var curScroll = 
     }
 
     function _nextSlide() {
@@ -123,10 +121,10 @@ window.Controller = (function($, Preloader) {
         for (var i = 0; i < _slides.length; i++) {
         	var slide = _slides[i];
 
-            var $li = $('<li>').css({
+            var $li = $('<li>').addClass('slide').css({
                 'height': _winH,
                 'position': 'relative'
-            });
+            }).attr('rel', i);
 
         	switch (slide.type) {
         		case 'header':
@@ -161,6 +159,11 @@ window.Controller = (function($, Preloader) {
         _data = data;
         _slides = data.slides;
         _preloadSlides(_slides).then(_drawContent);
+    }
+
+    function _handleSnapToSlide(el) {
+    	_curSlide = $(el).attr('rel');
+    	AudioPlayer.start(_curSlide);
     }
 
     // display the header content, set HTML background color to white
