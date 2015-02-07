@@ -123,6 +123,27 @@ ul#Slides li img {
 	display: none;
 }
 
+.play-pause-btn {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 30px;
+	height: 30px;
+	background-size: 15px 14px;
+	background-position: center;
+	background-repeat: no-repeat;
+	cursor: pointer;
+}
+
+.play {
+	background-image: url(../img/play.png);
+	left: 1px;
+}
+
+.pause {
+	background-image: url(../img/pause.png);
+}
+
 #Footer {
 
 }

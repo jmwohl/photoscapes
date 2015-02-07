@@ -19,6 +19,7 @@ window.Controller = (function($, Preloader) {
         $photos = $("ul#Slides"),
         _winH = $win.height(),
         _winW = $win.width(),
+        _imageW = _winW * 0.7,
         _scrollEvents = [];
 
     function _init(data_url) {
@@ -27,6 +28,11 @@ window.Controller = (function($, Preloader) {
         _setupEventHandlers();
 
         _loadData(data_url).done(_onDataLoaded);
+
+        AudioPlayer.init({
+        	imageW: _imageW,
+        	winW: _winW
+        });
     }
 
     function _loadData(data_url) {
@@ -38,31 +44,10 @@ window.Controller = (function($, Preloader) {
      */
     function _setupScreen() {
         console.log(_winH, _winW);
-        // $header.css("height", _winH + "px");
-        // $preloader.css("top", _winH / 2 - Preloader.radius);
-        // $preloader.css("left", _winW / 2 - Preloader.radius);
-
-        // this minus offset is a guess... should be calculated.
-        // $headerContent.css("top", _winH / 2 - 100);
-
-        // var padding = (_winH - $("#HeaderContent").height())/2;
-        // $header.css("padding", padding + "px 0px");
     }
 
     function _setupEventHandlers() {
     	console.log('_setupEventHandlers');
-        // $('body').on({
-        //     'mousewheel': function(e) {
-        //         console.log(e);
-        //         // e.preventDefault();
-        //         // e.stopPropagation();
-
-        //         _scrollEvents.push(e);
-        //         _scrollEvents.slice(0, 2);
-
-
-        //     }
-        // });
 
         $(document).on('scrollstop', function(e) {
         	
@@ -82,7 +67,7 @@ window.Controller = (function($, Preloader) {
             	} else {
                 	AudioPlayer.pause();
             	}
-                e.preventDefault();
+            	e.preventDefault();
             }
         });
     }
@@ -146,17 +131,20 @@ window.Controller = (function($, Preloader) {
         	switch (slide.type) {
         		case 'header':
         			var $header = $(_headerTplCompiled(slide));
-        			// var headerHeight = $header.css('height');
-        			// $header.css('margin-top', - (headerHeight / 2));
         			$li.append($header).addClass('header');
         			break;
         		case 'photo':
-		            var imgH = _winH * 0.9;
-		            _slides[i].$img.height(imgH);
+		            var $img = _slides[i].$img,
+		            	oW = $img[0].width,
+		            	oH = $img[0].height,
+		            	nW = _imageW,
+		            	nH = (nW/oW) * oH;
+		            _slides[i].$img.width(nW);
+		            console.log("HEIGHT", nH);
 		            _slides[i].$img.css({
 		                'position': 'relative',
 		                'top': '50%',
-		                'margin-top': -imgH / 2
+		                'margin-top': -nH / 2
 		            });
 		            $li.append(_slides[i].$img);
         			break;

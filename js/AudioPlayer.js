@@ -1,12 +1,15 @@
 window.AudioPlayer = (function($, _) {
 	var self = {},
+		_inited = false,
 		_curAudio,
 		_prevAudio,
 		$player = $('#AudioPlayer'),
 		$progressWrap = $('.progress-wrap'),
 		$playerProgress = $('.player-progress'),
+		$btn = $('.play-pause-btn'),
 		_radius = 15,
 		_playerHeight = 200,
+		_playerWidth = 30,
 		_transitionDuration = 1000,
 		_knobOpts = {
 		    width: _radius*2,
@@ -20,13 +23,36 @@ window.AudioPlayer = (function($, _) {
 		},
 		_isPaused = false,
 		_slides,
+		_imageW,
+		_winW,
 		_numSlides;
 
+	function _init(opts) {
+		if (_inited) return;
+		_winW = opts.winW;
+		_imageW = opts.imageW;
+		_setupMouseEvents();
+		_inited = true;
+	}
+	
 	function _draw(slides) {
 		_slides = slides;
 		_numSlides = slides.length;
+		$player.css({
+			'right': (_winW - _imageW)/4 - _playerWidth/2
+		});
 		$playerProgress.val(0).knob(_knobOpts);
 		$player.show();
+	}
+
+	function _setupMouseEvents() {
+		$(document).on('click', '.play-pause-btn', function() {
+			if (_isPaused) {
+            	_play();
+        	} else {
+            	_pause();
+        	}
+		});
 	}
 
 	function _start(slideIndex) {
@@ -52,12 +78,16 @@ window.AudioPlayer = (function($, _) {
 	}
 
 	function _pause() {
+		if (!_curAudio) return;
 		_curAudio.pause();
+		$btn.removeClass('pause').addClass('play');
 		_isPaused = true;
 	}
 
 	function _play() {
+		if (!_curAudio) return;
 		_curAudio.play();
+		$btn.removeClass('play').addClass('pause');
 		_isPaused = false;
 	}
 
@@ -110,6 +140,7 @@ window.AudioPlayer = (function($, _) {
 		$playerProgress.trigger('change');
 	}
 
+	self.init = _init;
 	self.draw = _draw;
 	self.start = _start;
 	self.pause = _pause;
