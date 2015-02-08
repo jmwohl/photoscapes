@@ -39,6 +39,20 @@ window.Controller = (function($, Preloader) {
         return $.get(data_url);
     }
 
+    function _addScrollSnap() {
+    	$(document).scrollsnap({
+	        snaps: '.slide',
+	        proximity: _winW/2,
+	        easing: "easeInOutCubic",
+	        duration: 500,
+	        onSnap: _handleSnapToSlide
+	    });
+    }
+
+    function _removeScrollSnap() {
+    	$(document).unbind('scrollstop');
+    }
+
     /**
      * Set the initial dimensions of the various components based on window size.
      */
@@ -49,11 +63,7 @@ window.Controller = (function($, Preloader) {
     function _setupEventHandlers() {
     	console.log('_setupEventHandlers');
 
-        $(document).scrollsnap({
-	        snaps: '.slide',
-	        proximity: _winW/2,
-	        onSnap: _handleSnapToSlide
-	    });
+        _addScrollSnap();
 
         $(document).on('keydown', function(e) {
             console.log(e.keyCode);
@@ -84,7 +94,7 @@ window.Controller = (function($, Preloader) {
     }
 
     function _nextSlide() {
-        console.log("_nextSlide");
+        console.log("_nextSlide", _curSlide);
         var $el;
         if (_curSlide < _slides.length - 1) {
         	_curSlide += 1;
@@ -96,7 +106,7 @@ window.Controller = (function($, Preloader) {
     }
 
     function _prevSlide() {
-        console.log("_prevSlide");
+        console.log("_prevSlide", _curSlide);
         var $el;
         if (_curSlide > 0) {
         	_curSlide -= 1;
@@ -107,9 +117,17 @@ window.Controller = (function($, Preloader) {
     }
 
     function _scrollToElement($el) {
+    	console.log("$el: ", $el);
+    	_removeScrollSnap();
     	$('html, body').stop().animate({
-            scrollTop: $el.offset().top
-        }, 1200);
+	            scrollTop: $el.offset().top
+	        }, 
+	        1500,
+	        "easeInOutCubic",
+	        function() {
+	        	console.log('scroll complete');
+	        	_addScrollSnap();
+	        });
     }
 
 
@@ -162,7 +180,7 @@ window.Controller = (function($, Preloader) {
     }
 
     function _handleSnapToSlide(el) {
-    	_curSlide = $(el).attr('rel');
+    	_curSlide = parseInt($(el).attr('rel'));
     	AudioPlayer.start(_curSlide);
     }
 
