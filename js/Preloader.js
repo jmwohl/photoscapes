@@ -86,6 +86,7 @@ window.Preloader = (function() {
 
 		// set up preloading
 		$img.load(function() {
+			console.log('image loaded');
 			dfd.resolve($img);
 		});
 		$img.attr('src', url);
@@ -96,6 +97,9 @@ window.Preloader = (function() {
 	// preload an Audio file
 	// TODO: in this case we're going to wait for all of the audio files to reach "canplaythrough", which probably isn't necessary
 	// ... might be better to just preload the first couple?
+	// 
+	//  - Looks like 'canplaythrough' maybe doesn't work/exist on mobile safari, so need another solution for preloading.
+	//  - Also, mobile can only play one sound at a time, so no cross fades...
 	function _loadAudio(url) {
 
 		var dfd = $.Deferred(),
@@ -105,9 +109,12 @@ window.Preloader = (function() {
 	    	return;
 	    }
 	    audio.addEventListener('canplaythrough', function() {
+	    	console.log('audio loaded');
 	    	dfd.resolve(audio);
 	    }, false);
 	    audio.src = url;
+
+	    // dfd.resolve(audio);
 	    
 		return dfd.promise();
 	}

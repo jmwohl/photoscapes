@@ -17,6 +17,7 @@ window.Controller = (function($, Preloader) {
         $headerContent = $("#HeaderContent"),
         $preloader = $("#Preloader"),
         $photos = $("ul#Slides"),
+        _slidesWrapH = 0,
         _winH = $win.height(),
         _winW = $win.width(),
         _imageW = _winW * 0.7,
@@ -82,6 +83,16 @@ window.Controller = (function($, Preloader) {
             	e.preventDefault();
             }
         });
+
+        // scroll audio controls with body
+        $(document).on('scroll', function(e) {
+            
+            // get scroll position as percent
+            var scrollTop = $('body').scrollTop(),
+                percent = scrollTop / (_slidesWrapH - _winH);
+            
+            AudioPlayer.setPlayerPosition(percent);
+        });
     }
 
     // uses Preloader module, returns the deferred from the load method
@@ -119,14 +130,15 @@ window.Controller = (function($, Preloader) {
     function _scrollToElement($el) {
     	console.log("$el: ", $el);
     	_removeScrollSnap();
-    	$('html, body').stop().animate({
+    	$('body').stop().animate({
 	            scrollTop: $el.offset().top
 	        }, 
 	        1500,
 	        "easeInOutCubic",
 	        function() {
 	        	console.log('scroll complete');
-	        	_addScrollSnap();
+                setTimeout(_addScrollSnap, 100);
+	        	// _addScrollSnap();
 	        });
     }
 
@@ -170,6 +182,8 @@ window.Controller = (function($, Preloader) {
 
             $photos.append($li);
         }
+
+        _onDrawComplete();
     }
 
     function _onDataLoaded(data) {
@@ -179,7 +193,12 @@ window.Controller = (function($, Preloader) {
         _preloadSlides(_slides).then(_drawContent);
     }
 
+    function _onDrawComplete() {
+        _slidesWrapH = $('#SlidesWrap').height();
+    }
+
     function _handleSnapToSlide(el) {
+        console.log('snapped');
     	_curSlide = parseInt($(el).attr('rel'));
     	AudioPlayer.start(_curSlide);
     }

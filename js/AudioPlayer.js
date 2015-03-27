@@ -58,7 +58,7 @@ window.AudioPlayer = (function($, _) {
 	function _start(slideIndex) {
 		var slide = _slides[slideIndex];
 		if (slide) {
-			_setPlayerPosition(slideIndex);
+			// _setPlayerPositionByIndex(slideIndex);
 			if (slide.aud) {
 				// if there is audio currently playing, fade it out and stop updating the progress indicator
 				if (_curAudio && _curAudio !== slide.aud) {
@@ -66,8 +66,8 @@ window.AudioPlayer = (function($, _) {
 					_removeTimeUpdates(_prevAudio);
 					_fadeOutAudio(_prevAudio);
 				}
-
 				_curAudio = slide.aud;
+				_curAudio.currentTime = 0;
 				_listenToTimeUpdates(_curAudio);
 				_fadeInAudio(_curAudio, !_isPaused);
 			} else {
@@ -80,24 +80,37 @@ window.AudioPlayer = (function($, _) {
 	function _pause() {
 		if (!_curAudio) return;
 		_curAudio.pause();
+		if (_prevAudio) {
+			_prevAudio.pause();
+		}
 		$btn.removeClass('pause').addClass('play');
 		_isPaused = true;
 	}
 
 	function _play() {
 		if (!_curAudio) return;
+		console.log(_curAudio);
 		_curAudio.play();
 		$btn.removeClass('play').addClass('pause');
 		_isPaused = false;
 	}
 
-	function _setPlayerPosition(slideIndex) {
+	function _setPlayerPositionByIndex(slideIndex) {
 		var percent = slideIndex / (_numSlides - 1),
 			position = _playerHeight * percent - _radius;
 		$progressWrap.animate({'top': position}, _transitionDuration);
 	}
 
+	function _setPlayerPosition(percent) {
+		var position = _playerHeight * percent - _radius;
+		$progressWrap.css({'top': position});
+	}
+
 	function _fadeInAudio(aud, play) {
+		// console.log("AUD", $(aud));
+		// console.log(aud);
+		// aud.play(0);
+		aud.volume = 0;
 		if (play) {
 			_play();
 		}
@@ -145,6 +158,7 @@ window.AudioPlayer = (function($, _) {
 	self.start = _start;
 	self.pause = _pause;
 	self.play = _play;
+	self.setPlayerPosition = _setPlayerPosition;
 	self.isPaused = function() {
 		return _isPaused;
 	};
